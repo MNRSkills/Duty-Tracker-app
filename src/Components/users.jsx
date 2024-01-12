@@ -1,40 +1,56 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Form from "./Form";
 
-const Users = (props) => {
+const Users = () => {
+  const [fullName, setFullName] = useState({
+    first_name: "",
+    last_name: "",
+  });
+  const fields = [
+    {
+      name: "first_name",
+      label: "First Name",
+      type: "text",
+    },
+    {
+      name: "last_name",
+      label: "Last Name",
+      type: "text",
+    },
+    // {
+    //   name: "email",
+    //   label: "Email",
+    // },
+  ];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("THIS IS FULL NAME", e);
+    // we need to now send the email data and how to structure that
+    try {
+      if (fullName) {
+        await addDoc(usersCol, fullName);
+      }
+    } catch {
+      console.log("ERROR ON THE TRYCATCH");
+    }
+  };
+
+  const handleChange = (e) => {
+    console.log("THIS IS WORKING");
+    setFullName({
+      ...fullName,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   return (
-    <form onSubmit={props.handleSubmit}>
-      <input
-        type="text"
-        name="first_name"
-        value={props.fullName.first_name}
-        placeholder="Your fist name"
-        onChange={props.handleChange}
-        // onChange={(e) => {
-        //   props.handleChange(e.target.value);
-        // }}
-      />
-      <input
-        type="text"
-        name="last_name"
-        value={props.fullName.last_name}
-        placeholder="Your last name"
-        onChange={props.handleChange}
-        // onChange={(e) => {
-        //   props.handleChange(e.target.value);
-        // }}
-      />
-      <input
-        type="text"
-        name="email"
-        // value={props.newUsers.Email}
-        placeholder="Your email address"
-        onChange={props.handleEmailChange}
-        // onChange={(e) => {
-        //   props.handleEmailChange(e.target.value);
-        // }}
-      />
-      <button type="submit">Submit</button>
-    </form>
+    <Form
+      fields={fields}
+      onSubmit={handleSubmit}
+      onChange={handleChange}
+      formData={fullName}
+    />
   );
 };
 
