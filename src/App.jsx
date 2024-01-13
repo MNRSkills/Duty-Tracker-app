@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import "./index.css";
 import "./App.css";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 import Users from "./Components/users";
 import Task from "./Components/taskInput";
@@ -34,13 +36,18 @@ function App() {
     getUsers();
   }, []);
   return (
-    <>
-      <Users
-        users={users}
-        
-      />
-      <Task />
-    </>
+    <Container>
+      <Row>
+        <Col>
+          <h1>This is another col</h1>
+          <Users users={users} />
+        </Col>
+        <Col>
+          <h1>Hi there welcome to my project</h1>
+          <Task />
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

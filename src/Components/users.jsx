@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Form from "./Form";
+import FormComp from "./Form";
 
 const Users = () => {
   const [fullName, setFullName] = useState({
@@ -45,7 +45,7 @@ const Users = () => {
   };
 
   return (
-    <Form
+    <FormComp
       fields={fields}
       onSubmit={handleSubmit}
       onChange={handleChange}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Form from "./Form";
+import FormComp from "./Form";
 import { db } from "../Firebase/firebase";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 
@@ -8,6 +8,7 @@ const Task = () => {
     date: "0111002",
     category: ["Incident", "Service Request", "Change Management"],
     assign: "",
+    reporter: "",
     description: "",
   });
   const tasksCol = collection(db, "tasks");
@@ -48,6 +49,11 @@ const Task = () => {
       type: "text",
     },
     {
+      name: "reporter",
+      label: "Who is reporting",
+      type: "text",
+    },
+    {
       name: "description",
       label: "Description",
       type: "textarea",
@@ -55,7 +61,7 @@ const Task = () => {
   ];
 
   return (
-    <Form
+    <FormComp
       fields={fields}
       onSubmit={handleSubmit}
       onChange={handleChange}
