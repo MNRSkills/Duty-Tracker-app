@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
-import FormComp from "./Form";
-import { db } from "../Firebase/firebase";
-import { collection, getDocs, addDoc } from "firebase/firestore";
 
+// Components -----------------------
+import FormComp from "../Form";
+import Issues from "./Issues";
+// -----------------------------------
+// Firebase config-------------------
+import { db } from "../../Firebase/firebase";
+import { collection, getDocs, addDoc } from "firebase/firestore";
+// -----------------------------------------------------------------
 const Task = () => {
   const [task, setTask] = useState({
     date: "0111002",
@@ -11,6 +16,7 @@ const Task = () => {
     reporter: "",
     description: "",
   });
+  const [issues, setIssues] = useState([]);
   const tasksCol = collection(db, "tasks");
 
   const handleChange = (e) => {
@@ -60,13 +66,28 @@ const Task = () => {
     },
   ];
 
+  const getTasksList = async () => {
+    const tasksSnapshot = await getDocs(tasksCol);
+    const tasksList = await tasksSnapshot.docs.map((doc) => doc.data());
+    setIssues(tasksList);
+  };
+
+  useEffect(() => {
+    getTasksList();
+  }, []);
+
   return (
-    <FormComp
-      fields={fields}
-      onSubmit={handleSubmit}
-      onChange={handleChange}
-      formData={task}
-    />
+    <>
+      <FormComp
+        fields={fields}
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+        formData={task}
+      />
+      {issues.map((issue, index) => {
+        return <Issues issue={issue} key={index} />;
+      })}
+    </>
   );
 };
 
